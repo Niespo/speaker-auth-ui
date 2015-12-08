@@ -8,8 +8,6 @@
     function speakerApiConsumer($http) {
         const DEFAULT_ENDPOINT = '10.0.3.2',
             DEFAULT_PORT = '8080';
-
-
         return {
             identityFromBlob: identityFromBlob
         };
