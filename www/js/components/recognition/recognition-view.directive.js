@@ -8,10 +8,10 @@
     function recognitionView() {
         return {
             templateUrl: 'js/components/recognition/recognition-view.html',
-            controller: ['$scope', '$ionicPlatform', 'soundRecorderFactory', 'speakerApiConsumer', RecognitionViewController]
+            controller: ['$scope', '$ionicPlatform', 'soundRecorderFactory', 'speakerApiConsumer', 'fileReaderFactory', 'fileLoaderFactory', RecognitionViewController]
         };
 
-        function RecognitionViewController($scope, $ionicPlatform, soundRecorderFactory, speakerApiConsumer) {
+        function RecognitionViewController($scope, $ionicPlatform, soundRecorderFactory, speakerApiConsumer, fileReaderFactory, fileLoaderFactory) {
             $scope.cordova = {loaded: false};
             $scope.recognize = recognize;
 
@@ -19,43 +19,29 @@
             $ionicPlatform.ready(onIonicReady);
 
             function recognize() {
-                console.log('recognize');
-
                 soundRecorderFactory
                     .newInstance()
                     .record()
                     .then(function (files) {
                         const filePath = files[0].localURL;
+                        sendFile(filePath)
+                    });
 
-                        getFile(filePath)
-
-                    })
-
-                function getFile(uri) {
-                    window.resolveLocalFileSystemURI(uri, resolveOnSuccess, resOnError);
-                    console.log('dupa');
-                    console.log(entry)
-                    function resolveOnSuccess(entry) {
-                        entry.file(function (file) {
-                            console.log(file)
-                            var reader = new FileReader();
-                            reader.onloadend = function (evt) {
-
-                                speakerApiConsumer.identityFromBlob(file.name, new Blob([evt.target.result], {"type": 'audio/3gp'}))
-                                    .then(function (data) {
-                                        console.log(data);
-                                    }, function (error) {
-                                        console.log(error)
-                                    });
-                            };
-                            reader.readAsArrayBuffer(file);
-                        }, resOnError);
-                    }
-
-                    function resOnError(error) {
-                        console.log(error);
-
-                    }
+                function sendFile(uri) {
+                    fileLoaderFactory.newInstance()
+                        .load(uri)
+                        .then(function (file) {
+                            return fileReaderFactory.newInstance().read(file)
+                        })
+                        .then(function (result) {
+                            return speakerApiConsumer.identityFromBlob(result.name, new Blob([result.buffer], {"type": 'audio/3gp'}))
+                        })
+                        .then(function (data) {
+                            console.log(data);
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
                 }
             }
 

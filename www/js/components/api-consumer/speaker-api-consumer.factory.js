@@ -19,7 +19,7 @@
             formData.append("voice", blob, fileName);
 
             return new Promise(function (resolve, reject) {
-                console.log('send')
+                console.log('Sending...')
                 $http({
                     method: 'POST',
                     url: getUri('recognize/best'),
@@ -28,11 +28,10 @@
                     transformRequest: function (data, headersGetterFunction) {
                         return formData;
                     }
-                }).then(function successCallback(response) {
+                }).then(function (response) {
                     console.log(response);
                     resolve(response);
-                }, function errorCallback(error) {
-                    console.log(error);
+                }, function (error) {
                     reject(error);
                 });
             });
