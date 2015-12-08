@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -14,24 +15,28 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+
     <script src="js/app/app.js"></script>
     <script src="js/app/routes.js"></script>
 
 
     <!-- inject:js -->
     <script src="js/app/routes.js"></script>
-    <script src="js/components/component/component.directive.js"></script>
+    <script src="js/components/api-consumer/speaker-api-consumer.factory.js"></script>
+    <script src="js/components/recognition/recognition-view.directive.js"></script>
+    <script src="js/components/sound-recorder/sound-recorder.factory.js"></script>
     <!-- endinject -->
 
 </head>
-<body ng-app="app" animation="slide-left-right-ios7">
-<div>
-    <div>
-        <ion-nav-bar class="bar-stable">
-            <ion-nav-back-button class="button-icon icon ion-ios-arrow-back">Back</ion-nav-back-button>
-        </ion-nav-bar>
-        <ion-nav-view></ion-nav-view>
-    </div>
-</div>
+<body ng-app="speakerAuthClient">
+
+<ion-nav-bar class="bar-energized">
+    <ion-nav-back-button class="button-icon icon ion-ios-arrow-back">Back</ion-nav-back-button>
+</ion-nav-bar>
+<ion-nav-view></ion-nav-view>
+
 </body>
 </html>

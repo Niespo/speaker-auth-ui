@@ -2,7 +2,7 @@
 
     global
         .angular
-        .module('app')
+        .module('speakerAuthClient')
         .factory('soundRecorderFactory', function () {
             const DEFAULT_DURATION = 10;
             return {
