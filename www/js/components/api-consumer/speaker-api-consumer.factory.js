@@ -17,7 +17,7 @@
             formData.append("voice", blob, fileName);
 
             return new Promise(function (resolve, reject) {
-                console.log('Sending...')
+                console.log('Sending...');
                 $http({
                     method: 'POST',
                     url: getUri('recognize/best'),
